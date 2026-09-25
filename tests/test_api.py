@@ -6,7 +6,7 @@ from http.server import ThreadingHTTPServer
 from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 
-from app.server import Handler, TASKS
+from app.server import TASKS, Handler
 
 
 class ApiTests(unittest.TestCase):
