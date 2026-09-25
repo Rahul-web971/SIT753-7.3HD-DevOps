@@ -1,0 +1,10 @@
+groups:
+  - name: task-api
+    rules:
+      - alert: TaskApiDown
+        expr: up{job="task-api"} == 0
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: Task API is unavailable
