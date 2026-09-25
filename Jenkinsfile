@@ -26,12 +26,14 @@ pipeline {
         }
         stage('Code Quality') {
             steps {
-                sh 'python3 -m ruff check app tests scripts'
+                sh 'python3 -m venv .venv'
+        sh './.venv/bin/python -m pip install ruff bandit'
+        sh './.venv/bin/python -m ruff check app tests scripts'
             }
         }
         stage('Security') {
             steps {
-                sh 'python3 -m bandit -r app -ll'
+                 sh './.venv/bin/python -m bandit -r app -ll'
             }
         }
         stage('Deploy') {
