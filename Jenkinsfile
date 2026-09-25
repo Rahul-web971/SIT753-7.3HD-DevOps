@@ -20,7 +20,7 @@ pipeline {
                 sh 'python3 -m unittest discover -s tests -v'
                 sh 'docker network inspect "$NETWORK" >/dev/null 2>&1 || docker network create "$NETWORK"'
                 sh 'docker rm -f task-api-staging >/dev/null 2>&1 || true'
-                sh 'docker run -d --name task-api-staging --network "$NETWORK" -p 18080:8000 -e APP_VERSION="$BUILD_NUMBER" "$IMAGE:$BUILD_NUMBER"'
+                sh 'docker run -d --name task-api-staging --network "$NETWORK" -p 127.0.0.1:18080:8000 -e APP_VERSION="$BUILD_NUMBER" "$IMAGE:$BUILD_NUMBER"'
                 sh 'python3 scripts/smoke.py http://127.0.0.1:18080'
             }
         }
@@ -45,7 +45,7 @@ pipeline {
             steps {
                 sh 'docker tag "$IMAGE:$BUILD_NUMBER" "$IMAGE:production"'
                 sh 'docker rm -f task-api-production >/dev/null 2>&1 || true'
-                sh 'docker run -d --restart unless-stopped --name task-api-production --network "$NETWORK" -p 18081:8000 -e APP_VERSION="$BUILD_NUMBER" "$IMAGE:production"'
+                sh 'docker run -d --restart unless-stopped --name task-api-production --network "$NETWORK" -p 127.0.0.1:18081:8000 -e APP_VERSION="$BUILD_NUMBER" "$IMAGE:production"'
                 sh 'python3 scripts/smoke.py http://127.0.0.1:18081'
             }
         }
