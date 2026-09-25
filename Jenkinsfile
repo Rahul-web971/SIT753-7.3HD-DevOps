@@ -4,6 +4,7 @@ pipeline {
     environment {
         IMAGE = 'task-api'
         NETWORK = 'task-api-net'
+        PATH = "/Users/rahulrama/.docker/bin:${env.PATH}"
     }
     stages {
         stage('Build') {
